@@ -1,0 +1,34 @@
+{
+  "name": "Alice",
+  "age": 28,
+  "address": {
+    "street": "123 Main St",
+    "city": "Wonderland",
+    "zip": "45892",
+    "coords": { "lat": 52.123, "lon": 13.21 }
+  },
+  "phones": [
+    { "type": "mobile", "number": "+4912345678" },
+    { "type": "work", "number": "+4933223456" }
+  ],
+  "emails": [],
+  "projects": [
+    {
+      "title": "Universal Parser",
+      "technologies": ["Java", "ANTLR", "Gradle"],
+      "contributors": [
+        { "name": "Bob", "role": "Lead" },
+        { "name": "Eve", "role": "Tester" }
+      ],
+      "isActive": true
+    },
+    {
+      "title": "DataViz",
+      "technologies": [],
+      "contributors": [],
+      "isActive": false
+    }
+  ],
+  "isEmployed": true,
+  "meta": null
+}

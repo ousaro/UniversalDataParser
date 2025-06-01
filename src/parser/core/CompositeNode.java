@@ -7,9 +7,12 @@ import java.util.List;
 // used for objects like arrays, XML elements, YAML maps/lists, etc.
 public class CompositeNode extends Node {
     private final List<Node> children = new ArrayList<>();
+    private final boolean isArray;
 
-    public CompositeNode(String name) {
+    public CompositeNode(String name, boolean isArray) {
+
         super(name);
+        this.isArray = isArray;
     }
 
     public void addChild(Node child) {
@@ -25,6 +28,9 @@ public class CompositeNode extends Node {
     public List<Node> getChildren() {
         return Collections.unmodifiableList(children);
     }
+
+    public boolean isArray() { return isArray; }
+
 
     @Override
     public String toString() {

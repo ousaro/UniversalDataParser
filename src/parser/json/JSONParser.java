@@ -10,7 +10,7 @@ public class JSONParser implements IParser {
     public Node parse(String input) {
         this.tokenizer = new JSONTokenizer(input);
         this.currentToken = tokenizer.nextToken();
-        Node root = parseValue(null); // start parsing from the root
+        Node root = parseValue(null); // start parsing from the root creating AST from the input
 
         if(currentToken.type != JSONTokenType.EOF) {
             throw new ParseException("Unexpected token after end of input: " + currentToken.type  );
@@ -42,13 +42,13 @@ public class JSONParser implements IParser {
 
     private Node parseObject(String name){
         consume(JSONTokenType.LEFT_BRACE);
-        CompositeNode object = new CompositeNode(name);
+        CompositeNode object = new CompositeNode(name, false) ;
         if(currentToken.type != JSONTokenType.RIGHT_BRACE){
             do{
                 if(currentToken.type != JSONTokenType.STRING) throw new ParseException("Expected string key, found: " + currentToken.type);
-                String key = currentToken.value; // the key is a string
-                consume(JSONTokenType.STRING);
-                consume(JSONTokenType.COLON); // consume the colon after the key
+                String key = currentToken.value; // get the key for the object
+                consume(JSONTokenType.STRING);// consume the string token which is the key pass to colon
+                consume(JSONTokenType.COLON); // consume the colon after the key then get the value
                 Node value = parseValue(key); // parse the value associated with the key
                 object.addChild(value); // add the key-value pair to the object
                 if(currentToken.type != JSONTokenType.COMMA)
@@ -64,7 +64,7 @@ public class JSONParser implements IParser {
 
     private Node parseArray(String name) {
         consume(JSONTokenType.LEFT_BRACKET);
-        CompositeNode array = new CompositeNode(name);
+        CompositeNode array = new CompositeNode(name, true); // create an array node
         if (currentToken.type != JSONTokenType.RIGHT_BRACKET) {
             do {
                 array.addChild(parseValue(null));
