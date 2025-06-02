@@ -11,6 +11,11 @@ public class LeafNode extends Node {
         this.value = value;
     }
 
+    public LeafNode(String name, Object value , int indent) {
+        this(name, value);
+        this.indent = indent;
+    }
+
     public Object getValue() {
         return value;
     }

@@ -1,11 +1,11 @@
 person:
   name: Alice
   age: 30
-  skills:
+  skills: # List of skills
     - magic
     - sword
     - archery
-  pets:
+  pets: # List of pets
     - type: cat
     - name: Whiskers
     - type: dog

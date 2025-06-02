@@ -18,7 +18,7 @@ public class YAMLParser implements IParser {
         this.tokenizer = new YAMLTokenizer(input);
         // Start parsing from the first token
         advance();
-        CompositeNode root = new CompositeNode(null, false);
+        CompositeNode root = new CompositeNode(null, false, currentToken.getIndent());
         // Continue parsing until we reach the end of the stream
         while (currentToken != null && currentToken.getType() != YAMLTokenType.STREAM_END) {
             Node node = parseNode();
@@ -46,11 +46,12 @@ public class YAMLParser implements IParser {
                         currentToken.getIndent() == myIndent) {
                     String value = currentToken.getValue();
                     advance();
-                    return new LeafNode(key, value);
+                    return new LeafNode(key, value, currentToken.getIndent());
                 }
 
                 // Otherwise, this key is a block parent. Attach nested nodes.
-                CompositeNode keyNode = new CompositeNode(key, false);
+
+                CompositeNode keyNode = new CompositeNode(key, false,currentToken.getIndent());
                 while (currentToken != null &&
                         currentToken.getType() != YAMLTokenType.STREAM_END &&
                         currentToken.getIndent() > myIndent) {
@@ -72,11 +73,11 @@ public class YAMLParser implements IParser {
                 return keyNode;
             }
             case SEQUENCE_ENTRY -> {
-                CompositeNode listNode = new CompositeNode(null, false);
+                CompositeNode listNode = new CompositeNode(null, false,currentToken.getIndent());
                 while (currentToken != null &&
                         currentToken.getType() == YAMLTokenType.SEQUENCE_ENTRY &&
                         currentToken.getIndent() == myIndent) {
-                    listNode.addChild(new LeafNode(null, currentToken.getValue()));
+                    listNode.addChild(new LeafNode(null, currentToken.getValue(),currentToken.getIndent()));
                     advance();
                     // Optional: handle nested mappings after "-"
                     while (currentToken != null &&
@@ -92,7 +93,7 @@ public class YAMLParser implements IParser {
             case SCALAR -> {
                 String value = currentToken.getValue();
                 advance();
-                return new LeafNode(null, value);
+                return new LeafNode(null, value,currentToken.getIndent());
             }
             default -> {
                 advance();

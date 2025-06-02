@@ -10,10 +10,15 @@ public class CompositeNode extends Node {
     private boolean isArray;
 
     public CompositeNode(String name, boolean isArray) {
+        this(name, isArray, 0);
+    }
 
+    public CompositeNode(String name, boolean isArray, int indent) {
         super(name);
         this.isArray = isArray;
+        this.indent = indent;
     }
+
 
     public void addChild(Node child) {
         children.add(child);

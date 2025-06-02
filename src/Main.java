@@ -17,11 +17,11 @@ public class Main {
 
 
         // Example usage of the JSON parser
-        String jsonFilePath = "json.txt";
+        String jsonFilePath = "json.json";
         String jsonInputFile = Files.readString(Path.of(jsonFilePath));
 
         // Example usage of the YAML parser
-        String yamlFilePath = "yaml.txt";
+        String yamlFilePath = "yaml.yaml";
         String yamlInputFile = Files.readString(Path.of(yamlFilePath));
 
         try {
