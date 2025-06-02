@@ -15,6 +15,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -27,3 +28,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+
+### file omitted in source code
+**/src/parser/xml
