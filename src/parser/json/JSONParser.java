@@ -8,6 +8,7 @@ public class JSONParser implements IParser {
 
     @Override
     public Node parse(String input) {
+        input = input.trim(); // trim whitespace from the input
         this.tokenizer = new JSONTokenizer(input);
         this.currentToken = tokenizer.nextToken();
         Node root = parseValue(null); // start parsing from the root creating AST from the input

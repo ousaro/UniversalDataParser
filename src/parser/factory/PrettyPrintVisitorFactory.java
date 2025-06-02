@@ -1,25 +1,25 @@
 package parser.factory;
 
-import parser.core.IParser;
-import parser.json.JSONParser;
-import parser.xml.XMLParser;
-import parser.yaml.YAMLParser;
+import parser.json.JSONPrettyPrintVisitor;
+import parser.core.NodeVisitor;
+import parser.xml.XMLPrettyPrintVisitor;
+import parser.yaml.YAMLPrettyPrintVisitor;
 
-public class ParserFactory {
+public class PrettyPrintVisitorFactory {
 
     public enum Format{
         JSON, XML, YAML
     }
 
-    public static IParser getParser(String formatOrFileName){
+    public static NodeVisitor getPrettyPrintVisitor(String formatOrFileName){
         String fmt = formatOrFileName.trim().toLowerCase();
 
         if(fmt.endsWith(".json") || fmt.equals("json")){
-            return new JSONParser();
+            return new JSONPrettyPrintVisitor();
         } else if(fmt.endsWith(".xml") || fmt.equals("xml")){
-            return new XMLParser();
+            return new XMLPrettyPrintVisitor();
         } else if(fmt.endsWith(".yaml") || fmt.equals("yaml")){
-            return new YAMLParser();
+            return new YAMLPrettyPrintVisitor();
         } else {
             throw new IllegalArgumentException("Unsupported format: " + formatOrFileName);
         }

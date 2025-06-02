@@ -9,4 +9,12 @@ public class JSONToken {
         this.type = type;
         this.value = value;
     }
+
+    public JSONTokenType getType() {
+        return type;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

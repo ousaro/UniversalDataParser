@@ -1,0 +1,9 @@
+person:
+  name: Alice
+  age: 30
+  skills:
+    - magic
+    - sword
+numbers:
+  - one
+  - two
