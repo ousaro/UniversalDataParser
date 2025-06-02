@@ -34,12 +34,15 @@ public class Main {
             Node rootNodeYaml = parserYaml.parse(yamlInputFile);
 
             // Print the parsed JSON structure
-            NodeVisitor printerFile = PrettyPrintVisitorFactory.getPrettyPrintVisitor("json");
-            rootNodeFile.accept(printerFile);
+            NodeVisitor JSONprinterFile = PrettyPrintVisitorFactory.getPrettyPrintVisitor("json");
+            rootNodeFile.accept(JSONprinterFile);
+
+            NodeVisitor YAMLprinterFile = PrettyPrintVisitorFactory.getPrettyPrintVisitor("yaml");
+            rootNodeYaml.accept(YAMLprinterFile);
 
             // Print the parsed stucture
-            //System.out.println("Parsed JSON from file successfully! \n" + printerFile.getResult());
-            System.out.println("Parsed YAML from file successfully! \n" + rootNodeYaml.toString());
+            //System.out.println("Parsed JSON from file successfully! \n" + JSONprinterFile.getResult());
+            System.out.println("Parsed YAML from file successfully! \n" + YAMLprinterFile.getResult());
 
 
         } catch (Exception e) {

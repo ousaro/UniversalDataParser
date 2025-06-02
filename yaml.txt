@@ -4,6 +4,29 @@ person:
   skills:
     - magic
     - sword
+    - archery
+  pets:
+    - type: cat
+    - name: Whiskers
+    - type: dog
+    - name: Rex
+    - toys: ball
+
 numbers:
   - one
   - two
+  - three
+
+projects: []
+
+nullValue: null
+
+bigList:
+  - alpha
+  - beta
+  - gamma
+
+stuff:
+  key1:
+    subkey: [a, b, c]
+  key2: value2

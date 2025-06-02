@@ -7,6 +7,4 @@ public enum YAMLTokenType {
     KEY,                // 'key:' - mapping key
     SCALAR,             // a simple value
     SEQUENCE_ENTRY,     // '- value' (list item)
-    INDENT,             // (Optional) Detect increase in indentation
-    DEDENT,             // (Optional) Detect decrease in indentation
 }

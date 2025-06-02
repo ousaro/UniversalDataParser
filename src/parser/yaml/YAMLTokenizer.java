@@ -5,12 +5,11 @@ public class YAMLTokenizer {
     private int pos = 0;
     private final int length;
     private int line = 1;
-    private int nextIndent = 0;
     private boolean startOfLine = true;
 
     public YAMLTokenizer(String input) {
-        this.input = input;
-        this.length = input.length();
+        this.input = input.strip();
+        this.length = this.input.length();
     }
 
     public YAMLToken nextToken() {
@@ -19,8 +18,15 @@ public class YAMLTokenizer {
             return new YAMLToken(YAMLTokenType.STREAM_END, null, line, 0);
         }
 
-        int indent = countCurrentIndentation();
-        consumeIndentation(indent);
+        int indent = 0;
+        if (startOfLine) {
+            while (pos < length && input.charAt(pos) == ' ') {
+                pos++;
+                indent++;
+            }
+            startOfLine = false;
+        }
+
 
         // Standard YAML document start/end
         if (peek("---")) {
@@ -45,6 +51,7 @@ public class YAMLTokenizer {
 
         // Key
         int keyStart = pos;
+        // Find the end of the key (until ':', newline, or comment)
         while (pos < length && input.charAt(pos) != ':' && input.charAt(pos) != '\n' && input.charAt(pos) != '#') {
             pos++;
         }
@@ -54,6 +61,7 @@ public class YAMLTokenizer {
             pos++;
             // Check if immediate value after colon (key: value)
             int valueStart = pos;
+            // find the end of the value (until newline or comment)
             while (pos < length && input.charAt(pos) != '\n' && input.charAt(pos) != '#') {
                 pos++;
             }
@@ -67,9 +75,8 @@ public class YAMLTokenizer {
                 // (Key)
                 YAMLToken keyTok = new YAMLToken(YAMLTokenType.KEY, key, line, indent);
                 // (Value as SCALAR)
-                YAMLToken valueTok = new YAMLToken(YAMLTokenType.SCALAR, value, line, indent);
                 // Schedule to return value token on next call
-                this.lastValueToken = valueTok;
+                this.lastValueToken = new YAMLToken(YAMLTokenType.SCALAR, value, line, indent);
                 return keyTok;
             }
         }
@@ -90,9 +97,7 @@ public class YAMLTokenizer {
     private void skipWhitespaceAndComments() {
         while (pos < length) {
             char ch = input.charAt(pos);
-            if (ch == ' ' || ch == '\t') {
-                pos++;
-            } else if (ch == '\n') {
+            if (ch == '\n') {
                 pos++;
                 line++;
                 startOfLine = true;
@@ -104,24 +109,8 @@ public class YAMLTokenizer {
         }
     }
 
-    private int countCurrentIndentation() {
-        int temp = pos;
-        int count = 0;
-        while (temp < length && (input.charAt(temp) == ' ')) {
-            count++;
-            temp++;
-        }
-        return count;
-    }
-
-    private void consumeIndentation(int count) {
-        for (int i = 0; i < count && pos < length; i++) {
-            if (input.charAt(pos) == ' ') pos++;
-        }
-    }
-
     private boolean peek(String s) {
-        return pos + s.length() <= length && input.substring(pos, pos + s.length()).equals(s);
+        return pos + s.length() <= length && input.startsWith(s, pos);
     }
 
     private String parseUnquotedScalar() {
@@ -129,8 +118,7 @@ public class YAMLTokenizer {
         while (pos < length && input.charAt(pos) != '\n' && input.charAt(pos) != '#') {
             pos++;
         }
-        String value = input.substring(start, pos).strip();
-        return value;
+        return input.substring(start, pos).strip();
     }
 
     // On each call, if a value token is pending (from inline key: value), return that first

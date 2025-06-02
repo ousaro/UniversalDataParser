@@ -7,7 +7,7 @@ import java.util.List;
 // used for objects like arrays, XML elements, YAML maps/lists, etc.
 public class CompositeNode extends Node {
     private final List<Node> children = new ArrayList<>();
-    private final boolean isArray;
+    private boolean isArray;
 
     public CompositeNode(String name, boolean isArray) {
 
@@ -31,6 +31,10 @@ public class CompositeNode extends Node {
 
     public boolean isArray() { return isArray; }
 
+    public void setIsArray(boolean isArray) {
+        if (this.isArray == isArray) return; // No change
+        this.isArray = isArray;
+    }
 
     @Override
     public String toString() {
