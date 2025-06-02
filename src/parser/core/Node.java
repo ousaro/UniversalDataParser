@@ -19,7 +19,7 @@ public abstract  class Node {
     public String getName() { return name; }
     //public int getIndent() { return indent; }
     // Accept method for visitor pattern
-    public abstract void accept(NodeVisitor visitor);
+    public abstract void accept(INodeVisitor visitor);
 
     // Utility (override in subtypes)
     public abstract List<Node> getChildren();

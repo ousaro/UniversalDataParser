@@ -27,7 +27,7 @@ public class LeafNode extends Node {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(INodeVisitor visitor) {
         visitor.visitLeaf(this);
     }
 

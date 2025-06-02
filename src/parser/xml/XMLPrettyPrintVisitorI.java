@@ -2,9 +2,9 @@ package parser.xml;
 
 import parser.core.CompositeNode;
 import parser.core.LeafNode;
-import parser.core.NodeVisitor;
+import parser.core.INodeVisitor;
 
-public class XMLPrettyPrintVisitor implements NodeVisitor {
+public class XMLPrettyPrintVisitorI implements INodeVisitor {
     @Override
     public String getResult() {
         return "";

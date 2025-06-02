@@ -3,9 +3,9 @@ package parser.json;
 import parser.core.CompositeNode;
 import parser.core.LeafNode;
 import parser.core.Node;
-import parser.core.NodeVisitor;
+import parser.core.INodeVisitor;
 
-public class JSONPrettyPrintVisitor implements NodeVisitor {
+public class JSONPrettyPrintVisitorI implements INodeVisitor {
 
     private final StringBuilder sb = new StringBuilder();
     private int indent = 0; // Current indentation level for pretty printing

@@ -6,41 +6,55 @@
 
 ## 🚀 Features
 
-- **Supports JSON, XML, and YAML** (Manual parsing, no dependencies)
+- **Supports JSON, and YAML** (Manual parsing, no dependencies)
 - **Modular design:** Each format in a separate, pluggable package
 - **Manual tokenization & recursive descent parsing**
 - **Extensible AST (Composite Pattern):** Nodes for objects, arrays, values
 - **Design patterns:** Factory, Strategy, Composite, Visitor
 - **Schema validation & error reporting**
-- **AST Visitors for pretty-printing, validation, and format conversion**
-- **Ideal for education, interviews, and robust data ingestion pipelines**
+- **AST Visitors for pretty-printing**
 
----
 
 ## 🌐 Architecture Overview
 
 ```plaintext
-      +---------------------+
-      |    ParserFactory    |  <-- Factory Pattern
-      +----------+----------+
-                 |
-      +----------+----------+
-      |     IParser         |  <-- Strategy Pattern
-      +----------+----------+
-       |        |        |
-  +----v--+ +---v---+ +--v-----+
-  |JSON   | | XML   | | YAML   |
-  |Parser | |Parser | |Parser  |
-  +---+---+ +---+---+ +---+----+
-          \       |      /
-            \     |    /
-               +--v---+
-               | AST   |  <-- Composite NodeTree
-               +--+---+
-                  |
-            +-----v------+
-            |  Visitor   |  <-- Visitor Pattern
-            +------------+
+    +--------------------+        
+   |   ParserFactory    |  <-- Factory Pattern
+   +---------+----------+        
+            |                        
+   +--------v---------+        
+   |     IParser      |  <-- Strategy Pattern
+   +--------+---------+        
+     |      |      |        
+ +---v--+ +--v---+ +--v---+    
+ |JSON  | | XML  | | YAML |    
+ |Parser| |Parser| |Parser|    
+ +---+--+ +--+---+ +--+---+                        
+        \    |    /                               
+         \   |   /                                  
+          +--v---+                               
+         |  AST   |   <-- Composite Pattern                            
+         +--+-----+                           
+            |                               
+     (accept(visitor)) 
+         ^
+         |
+         |
+   +-------------------------+
+   |    VisitorFactory       |    <-- Factory Pattern
+   +-----------+-------------+
+               |
+       +-------v--------+
+       |    IVisitor    |  <-- Strategy Pattern
+       +---+---+---+----+
+           |   |   |
+      +----v+ +v+ +v----+
+      |Json |Xml|Yaml   |   (Visitors)
+      |Pretty|Pretty|Pretty |
+      |Vis  |Vis|Vis    |
+      +-----+---+-------+
+                 
+
 ```
 
 ---
@@ -69,7 +83,8 @@ UniversalDataParser/
 2. **Tokenizer** splits input into tokens (lexemes) for each format.
 3. **Parser** (e.g., JSONParser) builds an **AST** (Node tree) using manual, recursive descent parsing.
 4. **AST Nodes** (Composite/LeafNode) represent data structure.
-5. **Visitors** operate on the AST for pretty printing, validation, or format conversion.
+5. **VisitorFactory** creates visitors for different operations.
+6**Visitors** operate on the AST for pretty printing, validation, or format conversion.
 
 ---
 
@@ -82,15 +97,44 @@ import parser.core.Node;
 import parser.core.visitor.PrettyPrinterVisitor;
 
 public class Main {
-    public static void main(String[] args) {
-        String input = "{ \"greeting\": \"Hello, world!\" }";
-        IParser parser = ParserFactory.getParser("json");
-        Node ast = parser.parse(input);
+    public static void main(String[] args) throws IOException {//TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+      System.out.println("Universal Parser Framwork stargin up!");
 
-        PrettyPrinterVisitor printer = new PrettyPrinterVisitor();
-        ast.accept(printer);
 
-        // Extend: Add ValidatorVisitor, ConverterVisitor, etc.
+      // Example usage of the JSON parser
+      String jsonFilePath = "json.json";
+      String jsonInputFile = Files.readString(Path.of(jsonFilePath));
+
+      // Example usage of the YAML parser
+      String yamlFilePath = "yaml.yaml";
+      String yamlInputFile = Files.readString(Path.of(yamlFilePath));
+
+      try {
+        // Parse JSON input from a string
+        IParser parserFile = ParserFactory.getParser("json");
+        Node rootNodeFile = parserFile.parse(jsonInputFile);
+
+        // Parse YAML input from a string
+        IParser parserYaml = ParserFactory.getParser("yaml");
+        Node rootNodeYaml = parserYaml.parse(yamlInputFile);
+
+        // Print the parsed JSON structure
+        INodeVisitor JSONprinterFile = PrettyPrintVisitorFactory.getPrettyPrintVisitor("json");
+        rootNodeFile.accept(JSONprinterFile);
+
+        INodeVisitor YAMLprinterFile = PrettyPrintVisitorFactory.getPrettyPrintVisitor("yaml");
+        rootNodeYaml.accept(YAMLprinterFile);
+
+        // Print the parsed stucture
+        //System.out.println("Parsed JSON from file successfully! \n" + JSONprinterFile.getResult());
+        System.out.println("Parsed YAML from file successfully! \n" + YAMLprinterFile.getResult());
+
+
+      } catch (Exception e) {
+        System.err.println("Error parsing: " + e.getMessage());
+      }
+
+
     }
 }
 ```
@@ -122,34 +166,38 @@ cd UniversalDataParser
 
 ---
 
+---
 ## 🤩 Advanced Features & Extensibility
 
 - **Add new format?**
     1. Add new package in `parser/`.
     2. Implement `IParser` and a custom tokenizer in that package.
     3. Register parser in `ParserFactory`.
+    4. Exemple : add XML support by creating `parser/xml/XmlParser.java` and `parser/xml/XmlTokenizer.java`.
+
 
 - **AST Visitors:**  
   Add custom visitors (e.g., for metrics, transformation, validation).
+  1. Create a new visitor class implementing `INodeVisitor`.
+  2. Register it in `VisitorFactory`.
+  3. Use it with `Node.accept(visitor)`.
+  
 
 - **Schema Validation:**  
   Build schema and type rules for custom business logic.
 
+
 - **Streaming/Chunked Parsing:**  
   Upgrade tokenization and parsing for very large files.
 
----
 
-## 🛠️ Development Tips
+- **Handling complex structures:**  
+  Support for advanced features like comments, anchors, and aliases in YAML.
 
-- **Commits:**  
-  `git init` and commit early, commit often!
-- **Refactor:**  
-  Use IntelliJ's refactor tools for safe, automatic code changes.
-- **Tests:**  
-  Add input samples under `src/test` and use JUnit for validation.
 
----
+- **Format Conversion:**  
+  Implement format conversion between JSON, XML, and YAML.
+
 
 ## 📝 License
 

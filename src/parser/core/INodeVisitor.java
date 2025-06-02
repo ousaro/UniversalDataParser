@@ -1,6 +1,6 @@
 package parser.core;
 
-public interface NodeVisitor {
+public interface INodeVisitor {
 
     public String getResult();
 

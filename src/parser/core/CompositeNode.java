@@ -25,7 +25,7 @@ public class CompositeNode extends Node {
     }
 
     @Override
-    public void accept(NodeVisitor visitor) {
+    public void accept(INodeVisitor visitor) {
         visitor.visitComposite(this);
     }
 
