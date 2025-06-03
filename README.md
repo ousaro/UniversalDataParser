@@ -215,7 +215,7 @@ See [LICENSE](LICENSE) for details.
 ## ✨ Description
 
 > **Universal Data Parser (Java, Manual Implementation):**  
-> Architected and implemented a custom parsing framework in Java supporting JSON, XML, and YAML. Built recursive descent parsers, tokenizers, and a unified AST from scratch. Applied OO design patterns (Factory, Strategy, Composite, Visitor) for maximum maintainability and extensibility. Developed robust error handling, pretty-printing, format conversion, and schema validation features—demonstrating expert-level code architecture and parsing know-how.
+> Architected and implemented a custom parsing framework in Java supporting JSON, and YAML. Built recursive descent parsers, tokenizers, and a unified AST from scratch. Applied OO design patterns (Factory, Strategy, Composite, Visitor) for maximum maintainability and extensibility. Developed robust error handling and pretty-printing, features—demonstrating code architecture and parsing know-how.
 
 ---
 
