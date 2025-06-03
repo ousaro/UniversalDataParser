@@ -20,7 +20,7 @@ This parser supports a useful subset of YAML syntax, focusing on **keys/values, 
 
 ---
 
-## Simplified EBNF Grammar
+## Simplified EBNF (Extended Backus-Naur Form) Grammar
 
 ```ebnf
 YAML            ::= Block
@@ -71,12 +71,6 @@ projects:
   - title: Compiler
     year: 2023
 ```
-
-Parsed structure:
-- `name`: "John Doe"
-- `age`: 30
-- `skills`: ["Python", "Java", "C++"]
-- `projects`: List of objects, each with `title`, `year`
 
 ---
 
