@@ -173,8 +173,6 @@ cd UniversalDataParser
     - Right-click `src/parser/Main.java` > **Run 'Main'**
 
 ---
-
----
 ## 🤩 Advanced Features & Extensibility
 
 - **Add new format?**
