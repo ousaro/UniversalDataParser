@@ -94,7 +94,7 @@ Grammar is essential for parsing. The JSON and YAML parsers are built using recu
 
 [**YAML Grammar**](src/parser/yaml/README.md)
 
-```plaintext
+
 
 ## 📄 Example Usage
 
