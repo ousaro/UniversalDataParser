@@ -87,6 +87,14 @@ UniversalDataParser/
 6**Visitors** operate on the AST for pretty printing, validation, or format conversion.
 
 ---
+## Grammar and Parsing
+Grammar is essential for parsing. The JSON and YAML parsers are built using recursive descent parsing techniques, which involve defining a grammar for each format and implementing methods to parse the input based on that grammar.
+
+[**JSON Grammar**](src/parser/json/README.md)
+
+[**YAML Grammar**](src/parser/yaml/README.md)
+
+```plaintext
 
 ## 📄 Example Usage
 
