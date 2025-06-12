@@ -159,7 +159,7 @@ public class Main {
 ### **2. Run Locally**
 
 ```
-git clone https://github.com/yourusername/UniversalDataParser.git
+git clone https://github.com/ousaro/UniversalDataParser.git
 cd UniversalDataParser
 ```
 
